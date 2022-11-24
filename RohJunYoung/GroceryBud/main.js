@@ -1,4 +1,5 @@
 const inputForm = document.querySelector(".grocery-form");
+const submitBtn = document.querySelector(".submit-btn");
 const inputData = document.querySelector(".grocery-input");
 const groceryLists = document.querySelector(".grocery-lists");
 const clearBtn = document.querySelector(".clear-btn");
@@ -15,8 +16,10 @@ inputForm.addEventListener("submit", (event) => {
   inputData.value = null;
 });
 
+// 전체삭제버튼 이벤트 리스너
 clearBtn.addEventListener("click", deleteGrocery);
 
+// 실시간으로 하나씩 추가. 렌더링에서도 이함수사용
 function addContext(key, val) {
   clearBtn.classList.add("show");
   const grocerySection = document.createElement("div");
@@ -25,15 +28,17 @@ function addContext(key, val) {
   grocerySection.innerHTML = /* html */ `
 		<p class="title">${val}</p>
     <div class="btn-container">
-      <button type="button" class="edit-btn">
+      <button type="button" class="edit-btn" id=${key}>
 				<i class="fa-solid fa-pen-to-square"></i>
       </button>
-      <button type="button" class="delete-btn">
+      <button type="button" class="delete-btn" id=${key}>
 			<i class="fa-solid fa-trash"></i>
       </button>
     </div>
 	`;
   groceryLists.append(grocerySection);
+  const editBtn = document.getElementById(`${key}`);
+  editBtn.addEventListener("click", editGrocery);
 }
 
 // 결국 렌더링은 이 함수가함. submit 이벤트리스너는 하나씩 실시간으로 넣어주는 역할
@@ -66,3 +71,20 @@ function deleteGrocery() {
   clearBtn.classList.remove("show");
   clearBtn.classList.add("hidden");
 }
+
+//edit grocery
+function editGrocery() {
+  console.log("ZZ");
+  console.log(this.id);
+  submitBtn.textContent = "Edit";
+  submitBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    console.log(inputData.value);
+    window.localStorage.setItem(this.id, inputData.value);
+    // 와 미쳤다 이게 화살표함수 this???????????
+    this.childNodes[1].textContent = inputData.value;
+    submitBtn.textContent = "Submit";
+  });
+}
+
+//delete
