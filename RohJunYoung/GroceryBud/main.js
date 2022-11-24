@@ -17,7 +17,7 @@ inputForm.addEventListener("submit", (event) => {
 });
 
 // 전체삭제버튼 이벤트 리스너
-clearBtn.addEventListener("click", deleteGrocery);
+clearBtn.addEventListener("click", deleteGroceryAll);
 
 // 실시간으로 하나씩 추가. 렌더링에서도 이함수사용
 function addContext(key, val) {
@@ -28,17 +28,19 @@ function addContext(key, val) {
   grocerySection.innerHTML = /* html */ `
 		<p class="title">${val}</p>
     <div class="btn-container">
-      <button type="button" class="edit-btn" id=${key}>
+      <button type="button" class="edit-btn" id=edit${key}>
 				<i class="fa-solid fa-pen-to-square"></i>
       </button>
-      <button type="button" class="delete-btn" id=${key}>
+      <button type="button" class="delete-btn" id=delete${key}>
 			<i class="fa-solid fa-trash"></i>
       </button>
     </div>
 	`;
   groceryLists.append(grocerySection);
-  const editBtn = document.getElementById(`${key}`);
+  const editBtn = document.getElementById(`edit${key}`);
   editBtn.addEventListener("click", editGrocery);
+  const deleteBtn = document.getElementById(`delete${key}`);
+  deleteBtn.addEventListener("click", deleteEachGrocery);
 }
 
 // 결국 렌더링은 이 함수가함. submit 이벤트리스너는 하나씩 실시간으로 넣어주는 역할
@@ -51,7 +53,6 @@ function renderItems() {
       acc[key] = window.localStorage[key];
       return acc;
     }, {});
-  console.log(sortedStorage);
   for (let key in sortedStorage) {
     addContext(key, sortedStorage[key]);
   }
@@ -65,7 +66,8 @@ function renderItems() {
 }
 
 // Delete all
-function deleteGrocery() {
+function deleteGroceryAll() {
+  console.log("ZZ");
   window.localStorage.clear();
   renderItems();
   clearBtn.classList.remove("show");
@@ -74,17 +76,34 @@ function deleteGrocery() {
 
 //edit grocery
 function editGrocery() {
-  console.log("ZZ");
-  console.log(this.id);
   submitBtn.textContent = "Edit";
   submitBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    console.log(inputData.value);
-    window.localStorage.setItem(this.id, inputData.value);
     // 와 미쳤다 이게 화살표함수 this???????????
-    this.childNodes[1].textContent = inputData.value;
+    // 아 이제보니 상위함수에서 parameter로 넘겨도 됐겠지만... this 사용이 뿌듯하네요
+    const parentItem = document.getElementById(
+      this.id.slice(4, this.id.length)
+    );
+    window.localStorage.setItem(parentItem.id, inputData.value);
+    parentItem.childNodes[1].textContent = inputData.value;
     submitBtn.textContent = "Submit";
   });
 }
 
-//delete
+//delete grocery
+function deleteEachGrocery() {
+  console.log(this);
+  const parentItem = document.getElementById(this.id.slice(6, this.id.length));
+  console.log(parentItem);
+  window.localStorage.removeItem(parentItem.id);
+  parentItem.innerHTML = "";
+  parentItem.style.margin = 0;
+  parentItem.style.padding = 0;
+  if (window.localStorage.length !== 0) {
+    clearBtn.classList.add("hidden");
+    clearBtn.classList.add("show");
+  } else {
+    clearBtn.classList.remove("show");
+    clearBtn.classList.add("hidden");
+  }
+}
