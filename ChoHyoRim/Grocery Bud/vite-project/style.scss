@@ -1,0 +1,78 @@
+body {
+  font-family: "Abril Fatface", cursive;
+}
+
+.container {
+  background-color: fff;
+  border: 2px solid;
+  border-radius: 10px;
+  width: 600px;
+  // height: 400px;
+  margin: auto;
+  margin-top: 20vh;
+  padding: 60px 60px 100px 60px;
+  box-sizing: border-box;
+  text-align: center;
+  h2 {
+    font-size: 32px;
+    font-weight: 700px;
+    margin-bottom: 30px;
+  }
+  .input_box {
+    input {
+      font-family: "Roboto", sans-serif;
+      border: rgba(255, 166, 0, 0.681);
+      border-bottom-left-radius: 10px;
+      width: 300px;
+      height: 30px;
+      background-color: rgba(89, 255, 0, 0.17);
+      &:focus {
+        background-color: rgb(70, 164, 164);
+        outline: none;
+      }
+    }
+    .submit_btn {
+      font-family: "Abril Fatface", cursive;
+      height: 30px;
+      border-color: orange;
+      background-color: orange;
+      border-top-right-radius: 10px;
+      &:hover {
+        cursor: pointer;
+      }
+      &:active {
+        background-color: rgba(70, 164, 164, 0.468);
+        color: white;
+      }
+      @-danger {
+        background-color: red;
+      }
+    }
+  }
+  .grocery_container {
+    .grocery_list {
+      .grocery_item {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 40px;
+        padding: 20px;
+        .btn_container {
+          button {
+            border: 0;
+            background-color: transparent;
+            padding: 0 3px;
+            :hover {
+              cursor: pointer;
+            }
+          }
+          .edit_btn {
+            color: rgb(10, 208, 49);
+          }
+          .delete_btn {
+            color: rgb(226, 31, 31);
+          }
+        }
+      }
+    }
+  }
+}
