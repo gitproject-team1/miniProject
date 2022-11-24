@@ -85,5 +85,27 @@ main {
         }
       }
     }
+    .clear-btn {
+      display: block;
+      cursor: pointer;
+      font-size: 16px;
+      letter-spacing: 4px;
+      width: auto;
+      height: 24px;
+      background: transparent;
+      border-color: transparent;
+      color: hsl(360, 67%, 44%);
+      text-align: center;
+      margin: 0 auto;
+      margin-top: 24px;
+    }
   }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.show {
+  display: block !important;
 }
