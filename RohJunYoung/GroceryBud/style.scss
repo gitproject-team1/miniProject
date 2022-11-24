@@ -62,5 +62,11 @@ main {
         }
       }
     }
+    .grocery-lists {
+      .groceries {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
   }
 }
