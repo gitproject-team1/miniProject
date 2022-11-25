@@ -3,6 +3,7 @@ const submitBtn = document.querySelector(".submit-btn");
 const inputData = document.querySelector(".grocery-input");
 const groceryLists = document.querySelector(".grocery-lists");
 const clearBtn = document.querySelector(".clear-btn");
+const alertStatus = document.querySelector(".status-alert");
 
 renderItems();
 
@@ -14,6 +15,12 @@ inputForm.addEventListener("submit", (event) => {
   addContext(time, inputData.value);
   window.localStorage.setItem(time, inputData.value);
   inputData.value = null;
+  alertStatus.classList.add("alert-add");
+  alertStatus.textContent = "Item Added To The List";
+  setTimeout(() => {
+    alertStatus.classList.remove("alert-add");
+    alertStatus.textContent = "";
+  }, 1000);
 });
 
 // 전체삭제버튼 이벤트 리스너
@@ -41,6 +48,7 @@ function addContext(key, val) {
   editBtn.addEventListener("click", editGrocery);
   const deleteBtn = document.getElementById(`delete${key}`);
   deleteBtn.addEventListener("click", deleteEachGrocery);
+  // alertStatus.classList.add("alert-add");
 }
 
 // 결국 렌더링은 이 함수가함. submit 이벤트리스너는 하나씩 실시간으로 넣어주는 역할
@@ -77,24 +85,29 @@ function deleteGroceryAll() {
 //edit grocery
 function editGrocery() {
   submitBtn.textContent = "Edit";
-  submitBtn.addEventListener("click", (event) => {
+  const parentItem = document.getElementById(this.id.slice(4, this.id.length));
+  inputData.value = window.localStorage.getItem(parentItem.id);
+  const editFunction = (event) => {
     event.preventDefault();
-    // 와 미쳤다 이게 화살표함수 this???????????
-    // 아 이제보니 상위함수에서 parameter로 넘겨도 됐겠지만... this 사용이 뿌듯하네요
-    const parentItem = document.getElementById(
-      this.id.slice(4, this.id.length)
-    );
     window.localStorage.setItem(parentItem.id, inputData.value);
     parentItem.childNodes[1].textContent = inputData.value;
     submitBtn.textContent = "Submit";
-  });
+    inputData.value = null;
+    // 삭제 중요
+    submitBtn.removeEventListener("click", editFunction);
+    alertStatus.classList.add("alert-edit");
+    alertStatus.textContent = "Value Changed";
+    setTimeout(() => {
+      alertStatus.classList.remove("alert-edit");
+      alertStatus.textContent = "";
+    }, 1000);
+  };
+  submitBtn.addEventListener("click", editFunction);
 }
 
 //delete grocery
 function deleteEachGrocery() {
-  console.log(this);
   const parentItem = document.getElementById(this.id.slice(6, this.id.length));
-  console.log(parentItem);
   window.localStorage.removeItem(parentItem.id);
   parentItem.innerHTML = "";
   parentItem.style.margin = 0;
@@ -106,4 +119,10 @@ function deleteEachGrocery() {
     clearBtn.classList.remove("show");
     clearBtn.classList.add("hidden");
   }
+  alertStatus.classList.add("alert-delete");
+  alertStatus.textContent = "Item Removed";
+  setTimeout(() => {
+    alertStatus.classList.remove("alert-delete");
+    alertStatus.textContent = "";
+  }, 1000);
 }

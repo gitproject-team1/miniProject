@@ -12,6 +12,16 @@ main {
     margin: 0 auto;
     max-width: 496px;
     margin-top: 128px;
+    .status-alert {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      height: 20px;
+      font-size: 12px;
+      border-radius: 4px;
+      letter-spacing: 4px;
+    }
     .grocery-form {
       margin: 0 auto;
       width: 100%;
@@ -19,9 +29,6 @@ main {
       justify-content: center;
       flex-direction: column;
       text-align: center;
-      .status-alert {
-        margin-bottom: 16px;
-      }
       h3 {
         font-size: 24px;
         font-weight: bold;
@@ -108,4 +115,15 @@ main {
 
 .show {
   display: block !important;
+}
+
+.alert-add,
+.alert-edit {
+  color: #155724;
+  background-color: #d4edda;
+}
+
+.alert-delete {
+  color: #721c24;
+  background-color: #f8d7da;
 }
