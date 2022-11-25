@@ -1,3 +1,8 @@
+// Default SortableJS
+import Sortable from "sortablejs";
+
+const Sortable = require("sortablejs");
+
 const inputForm = document.querySelector(".grocery-form");
 const submitBtn = document.querySelector(".submit-btn");
 const inputData = document.querySelector(".grocery-input");
@@ -75,16 +80,23 @@ function renderItems() {
 
 // Delete all
 function deleteGroceryAll() {
-  console.log("ZZ");
   window.localStorage.clear();
   renderItems();
   clearBtn.classList.remove("show");
   clearBtn.classList.add("hidden");
+  alertStatus.classList.add("alert-clear");
+  alertStatus.textContent = "Empty List";
+  setTimeout(() => {
+    alertStatus.classList.remove("alert-clear");
+    alertStatus.textContent = "";
+  }, 1000);
 }
 
 //edit grocery
 function editGrocery() {
   submitBtn.textContent = "Edit";
+  inputData.value = null;
+  console.log(inputData.value);
   const parentItem = document.getElementById(this.id.slice(4, this.id.length));
   inputData.value = window.localStorage.getItem(parentItem.id);
   const editFunction = (event) => {
@@ -109,9 +121,7 @@ function editGrocery() {
 function deleteEachGrocery() {
   const parentItem = document.getElementById(this.id.slice(6, this.id.length));
   window.localStorage.removeItem(parentItem.id);
-  parentItem.innerHTML = "";
-  parentItem.style.margin = 0;
-  parentItem.style.padding = 0;
+  parentItem.remove();
   if (window.localStorage.length !== 0) {
     clearBtn.classList.add("hidden");
     clearBtn.classList.add("show");
@@ -126,3 +136,26 @@ function deleteEachGrocery() {
     alertStatus.textContent = "";
   }, 1000);
 }
+
+// 자 그러면 rendering순서를 바꿔줄 필요도있음.
+let lists = document.querySelector(".grocery-lists");
+new Sortable(lists, {
+  handle: ".groceries",
+  animation: 200,
+  // 순서가바뀌면 컨텐트들도 재배치...
+  onEnd: function (event) {
+    let tmpIds = [];
+    for (let node of event.to.childNodes) {
+      tmpIds.push(node.id);
+    }
+    tmpIds.sort((a, b) => a - b);
+    console.log(tmpIds);
+    event.to.childNodes.forEach((node, i) => {
+      console.log(node);
+      node.childNodes[3].childNodes[1].id = `edit${tmpIds[i]}`;
+      node.childNodes[3].childNodes[3].id = `delete${tmpIds[i]}`;
+      node.id = tmpIds[i];
+      window.localStorage.setItem(tmpIds[i], node.childNodes[1].textContent);
+    });
+  },
+});
