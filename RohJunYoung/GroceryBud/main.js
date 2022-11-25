@@ -1,11 +1,11 @@
 // Default SortableJS
 // import Sortable from "sortablejs";
 // Cherrypick extra plugins
-import Sortable, { MultiDrag, Swap } from "sortablejs";
+// import Sortable, { MultiDrag, Swap } from "sortablejs";
 
 Sortable.mount(new MultiDrag(), new Swap());
 
-// const Sortable = require("sortablejs");
+const Sortable = require("sortablejs");
 
 const inputForm = document.querySelector(".grocery-form");
 const submitBtn = document.querySelector(".submit-btn");
