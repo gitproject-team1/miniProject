@@ -13,5 +13,8 @@
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.0",
     "parcel": "^2.8.0"
+  },
+  "dependencies": {
+    "sortablejs": "^1.15.0"
   }
 }
