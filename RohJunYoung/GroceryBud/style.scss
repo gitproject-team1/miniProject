@@ -12,6 +12,16 @@ main {
     margin: 0 auto;
     max-width: 496px;
     margin-top: 128px;
+    .status-alert {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      height: 20px;
+      font-size: 12px;
+      border-radius: 4px;
+      letter-spacing: 4px;
+    }
     .grocery-form {
       margin: 0 auto;
       width: 100%;
@@ -19,9 +29,6 @@ main {
       justify-content: center;
       flex-direction: column;
       text-align: center;
-      .status-alert {
-        margin-bottom: 16px;
-      }
       h3 {
         font-size: 24px;
         font-weight: bold;
@@ -31,6 +38,7 @@ main {
       .input-container {
         display: flex;
         justify-content: center;
+        margin-bottom: 16px;
         .grocery-input {
           background-color: #f1f5f8;
           padding: 4px 4px 4px 16px;
@@ -62,5 +70,61 @@ main {
         }
       }
     }
+    .grocery-lists {
+      .groceries {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 0 8px;
+        padding: 4px 16px;
+        .btn-container {
+          .edit-btn {
+            cursor: pointer;
+            background: transparent;
+            border-color: transparent;
+            color: hsl(125, 71%, 66%);
+          }
+          .delete-btn {
+            cursor: pointer;
+            background: transparent;
+            border-color: transparent;
+            color: hsl(360, 71%, 66%);
+          }
+        }
+      }
+    }
+    .clear-btn {
+      display: block;
+      cursor: pointer;
+      font-size: 14px;
+      letter-spacing: 4px;
+      width: auto;
+      height: 24px;
+      background: transparent;
+      border-color: transparent;
+      color: hsl(360, 67%, 44%);
+      text-align: center;
+      margin: 0 auto;
+      margin-top: 24px;
+    }
   }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.show {
+  display: block !important;
+}
+
+.alert-add,
+.alert-edit {
+  color: #155724;
+  background-color: #d4edda;
+}
+
+.alert-delete,
+.alert-clear {
+  color: #721c24;
+  background-color: #f8d7da;
 }
