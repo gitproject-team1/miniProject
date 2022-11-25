@@ -1,7 +1,7 @@
 // Default SortableJS
 import Sortable from "sortablejs";
 
-const Sortable = require("sortablejs");
+// const Sortable = require("sortablejs");
 
 const inputForm = document.querySelector(".grocery-form");
 const submitBtn = document.querySelector(".submit-btn");
