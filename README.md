@@ -6,7 +6,8 @@ JS의 기초부터 심화까지 미니프로젝트를 통해 성장해보려고 
 
 ## 진행사항
 
-- ColorFlipper(완료)
+- [ColorFlipper](https://github.com/ghgt1/miniProject/tree/main/RohJunYoung/ColorFlipper)(완료) 
+- [GroceryBud](https://github.com/ghgt1/miniProject/tree/main/RohJunYoung/GroceryBud)(완료) 
 - 각 디렉토리에서 자세한 내용과 결과물을 확인해보실수있습니다.
 
 ## 사용기술 스택
