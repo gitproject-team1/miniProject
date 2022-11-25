@@ -1,5 +1,9 @@
 // Default SortableJS
-import Sortable from "sortablejs";
+// import Sortable from "sortablejs";
+// Cherrypick extra plugins
+import Sortable, { MultiDrag, Swap } from "sortablejs";
+
+Sortable.mount(new MultiDrag(), new Swap());
 
 // const Sortable = require("sortablejs");
 
