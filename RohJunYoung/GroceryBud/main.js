@@ -1,5 +1,6 @@
 // Default SortableJS
-import Sortable from "sortablejs";
+// import Sortable from "sortablejs";
+import Sortable from "sortablejs/modular/sortable.complete.esm.js";
 // Cherrypick extra plugins
 // import Sortable, { MultiDrag, Swap } from "sortablejs";
 
