@@ -101,7 +101,6 @@ function deleteGroceryAll() {
 function editGrocery() {
   submitBtn.textContent = "Edit";
   inputData.value = null;
-  console.log(inputData.value);
   const parentItem = document.getElementById(this.id.slice(4, this.id.length));
   inputData.value = window.localStorage.getItem(parentItem.id);
   const editFunction = (event) => {
@@ -154,9 +153,7 @@ new Sortable(lists, {
       tmpIds.push(node.id);
     }
     tmpIds.sort((a, b) => a - b);
-    console.log(tmpIds);
     event.to.childNodes.forEach((node, i) => {
-      console.log(node);
       node.childNodes[3].childNodes[1].id = `edit${tmpIds[i]}`;
       node.childNodes[3].childNodes[3].id = `delete${tmpIds[i]}`;
       node.id = tmpIds[i];
