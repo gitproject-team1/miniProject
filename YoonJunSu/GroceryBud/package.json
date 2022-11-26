@@ -1,0 +1,20 @@
+{
+  "name": "yoonjunsu",
+  "version": "1.0.0",
+  "description": "JS의 기초부터 심화까지 미니프로젝트를 통해 성장해보려고 합니다.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5",
+    "sass": "^1.56.1"
+  },
+  "dependencies": {
+    "sortablejs": "^1.15.0"
+  }
+}

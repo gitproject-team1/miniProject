@@ -1,0 +1,123 @@
+body{
+  background-color: #e1f8fa;
+  width: 100vw;
+  height: 100vh;
+}
+header{
+  height: 40px;
+  h1{
+    font-size: 24px;
+    text-align: center;
+    background-color: #3cb5a7;
+    color: #fff;
+    line-height: 40px;
+  }
+}
+main{
+  .list{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 500px; height: 600px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow:10px 10px 30px #aaa;
+    overflow: hidden;
+    .create-box{
+      height: 70px;
+      background-color: #fff;
+      border-bottom: 5px solid #555;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .list-data{
+        width: 300px; height: 30px;
+      }
+      .add-btn{
+        width: 50px; height: 30px;
+      }
+    }
+    .list-box{
+      overflow: scroll;
+      height: 500px;
+      // padding-bottom: -100px;
+      ul.list-main{
+        padding-top: 15px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 15px;
+        li{
+          width: 80%;
+          height: 30px;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          background-color: #fff;
+          font-size: 20px;
+          padding: 0 20px;
+          // border: 2px solid #333;
+          box-shadow: 2px 2px 5px #333;
+          border-radius: 10px;
+          color: #333;
+          p{
+            width: 90%;
+          }
+          button{
+            background-color: #fff;
+            border: transparent;
+            cursor: pointer;
+          }
+          .edit{
+            color: #3cde75;
+            &:hover{
+              color: #26914b;
+            }
+          }
+          .remove{
+            color: #de1d3a;
+            &:hover{
+              color: #78101f;
+            }
+          }
+        }
+      }
+      .remove-all{
+        position: absolute;
+        bottom: 20px; left: 50%;
+        transform: translateX(-50%);
+        margin: 0 auto;
+      }
+    }
+  }
+  .modal{
+    // display: none;
+    visibility: hidden;
+    display: flex;
+    position: absolute;
+    width: 800px;
+    height: 100px;
+    z-index: 100;
+    background-color: #333;
+    justify-content: center;
+    align-items: center;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    button.close{
+      position: absolute;
+      top: 0; right: 0;
+    }
+  }
+  .bgc{
+    position: relative;
+    top: 0; left: 0;
+    visibility: hidden;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    opacity: .5;
+    z-index: 99;
+  }
+}

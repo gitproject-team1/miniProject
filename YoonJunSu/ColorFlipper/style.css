@@ -36,8 +36,9 @@ header ul button{
   transition: all .3s;
 }
 header ul button:hover{
-  background-color: #fff;
-  color: #333;
+  /* background-color: #fff; */
+  /* color: #333; */
+  background-color: rgb(0 0 0);
 }
 
 .page{
