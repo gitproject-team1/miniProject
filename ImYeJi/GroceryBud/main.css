@@ -42,6 +42,10 @@ a {
   text-transform: capitalize;
   font-weight: 900;
 }
+.alert-danger {
+  color: #721c24;
+  background: #f8d7da;
+}
 .section-center .grocery-form h3 {
   color: rgb(6, 50, 81);
   margin-bottom: 24px;
@@ -85,6 +89,10 @@ a {
 .section-center .grocery-container {
   margin-top: 32px;
   transition: all 0.3s linear;
+  visibility: hidden;
+}
+.show-container {
+  visibility: visible !important;
 }
 .section-center .grocery-container .grocery-list {
 
@@ -125,7 +133,7 @@ a {
 .section-center .grocery-container .grocery-list .grocery-item .btn-container .delete-btn {
   color: red;
 }
-.section-center .clear-btn {
+.grocery-container .clear-btn {
   text-transform: capitalize;
   width: 160px;
   height: 24px;
@@ -139,8 +147,4 @@ a {
   cursor: pointer;
   transition: all 0.3s linear;
   margin-top: 20px;
-}
-
-.show-container {
-  visibility: visible;
 }
