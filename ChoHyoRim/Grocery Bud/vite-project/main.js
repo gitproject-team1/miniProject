@@ -7,8 +7,11 @@ const itemEl = document.querySelector(".item");
 const submitBtnEl = document.querySelector(".submit_btn");
 const container = document.querySelector(".grocery_container");
 const list = document.querySelector(".grocery_list");
-
 const clearBtnEl = document.querySelector(".clear_btn");
+
+console.log(localStorage.getItem("list"));
+
+const lists = JSON.parse(localStorage.getItem("list"));
 
 //load items
 window.addEventListener("DOMcontentLoaded", setupItems);
@@ -17,20 +20,26 @@ let editFlag = false;
 let editId = "";
 
 submitBtnEl.addEventListener("click", addItem);
-
 //clear button
 clearBtnEl.addEventListener("click", clearItems);
 
+//drag and drop
+$(function () {
+  $("#sortable").sortable();
+  $("#sortable").disableSelection();
+});
+
+//아이템 등록
 function addItem(e) {
   e.preventDefault();
   const value = grocery.value;
-
   const id = new Date().getTime().toString();
+  //input창에 입력되고, 수정하는 것이 아닐 때
   if (value && !editFlag) {
     createListItem(id, value);
     //display alert
-    displayAlert("item added to the list", "success");
-    container.classList.add("show-container");
+    displayAlert("item added", "success");
+    // container.classList.add("show-container");
     const editBtnEl = document.querySelector(".edit_btn");
     const deleteBtnEl = document.querySelector(".delete_btn");
     deleteBtnEl.addEventListener("click", deleteItem);
@@ -39,6 +48,7 @@ function addItem(e) {
     addToLocalStorage(id, value);
     //set back to default
     setBackToDefault();
+    clearBtnEl.classList.add("show-container");
   } else if (value && editFlag) {
     editElement.innerHTML = value;
     displayAlert("value changed!", "success");
@@ -111,7 +121,7 @@ function setBackToDefault() {
 }
 //local starage
 function addToLocalStorage(id, value) {
-  const grocery = { id: id, value: value };
+  const grocery = { id, value };
   let items = getLocalStorage();
   items.push(grocery);
   localStorage.setItem("list", JSON.stringify(items));
@@ -147,8 +157,8 @@ function setupItems() {
   if (items.length > 0) {
     items.forEach(function (item) {
       createListItem(item.id, item.value);
+      container.classList.add("show-container");
     });
-    container.classList.add("show_container");
   }
 }
 
@@ -165,7 +175,9 @@ function createListItem(id, value) {
   <p class="item">${value}</p>
   <div class="btn_container">
     <button type="button" class="edit_btn">
-      <span class="material-symbols-outlined"> edit_square </span>
+    <span class="material-symbols-outlined">
+edit_document
+</span>
     </button>
     <button type="button" class="delete_btn">
       <span class="material-symbols-outlined"> delete </span>
@@ -175,3 +187,23 @@ function createListItem(id, value) {
   //append child
   list.appendChild(element);
 }
+
+function render(lists) {
+  if (lists === null) return;
+  lists.forEach((l) => {
+    container.innerHTML += /* html */ `
+  <div class="grocery_item">
+  <p class="item">${l.value}</p>
+  <div class="btn_container">
+    <button type="button" class="edit_btn">
+    <span class="material-symbols-outlined">edit_document</span>
+    </button>
+    <button type="button" class="delete_btn">
+      <span class="material-symbols-outlined"> delete </span>
+    </button>
+  </div>
+</div>`;
+  });
+}
+
+render(lists);
