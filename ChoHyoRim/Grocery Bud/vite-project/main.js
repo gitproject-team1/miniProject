@@ -1,9 +1,7 @@
 import "./style.scss";
 
 const alert = document.querySelector(".alert");
-const form = document.querySelector(".grocery_form");
 const grocery = document.getElementById("grocery");
-const itemEl = document.querySelector(".item");
 const submitBtnEl = document.querySelector(".submit_btn");
 const container = document.querySelector(".grocery_container");
 const list = document.querySelector(".grocery_list");
@@ -37,11 +35,14 @@ function addItem(e) {
     //display alert
     displayAlert("item added", "success");
     container.classList.add("show_container");
-    const editBtnEl = document.querySelector(".edit_btn");
-    const deleteBtnEl = document.querySelector(".delete_btn");
-    deleteBtnEl.addEventListener("click", deleteItem);
-    editBtnEl.addEventListener("click", editItem);
-
+    const editBtnEls = document.querySelectorAll(".edit_btn");
+    const deleteBtnEls = document.querySelectorAll(".delete_btn");
+    editBtnEls.forEach((editBtnEl) =>
+      editBtnEl.addEventListener("click", editItem)
+    );
+    deleteBtnEls.forEach((deleteBtnEl) =>
+      deleteBtnEl.addEventListener("click", deleteItem)
+    );
     //add to local storage
     addToLocalStorage(id, value);
     //set back to default
@@ -85,8 +86,6 @@ function clearItems() {
 
 //delete function
 function deleteItem(e) {
-  console.log(e);
-  console.log("item deleted");
   const element = e.currentTarget.parentElement.parentElement;
   const id = element.dataset.id;
   list.removeChild(element);
@@ -101,17 +100,23 @@ function deleteItem(e) {
 
 //edit function
 function editItem(e) {
-  console.log("edit item");
   const element = e.currentTarget.parentElement.parentElement;
+  console.log("currentTarget", e.currentTarget);
+  console.log("currentTarget.parentElement", e.currentTarget.parentElement);
+  console.log(
+    "currentTarget.parentElement.parentElement",
+    e.currentTarget.parentElement.parentElement
+  );
   //set edit item
   editElement = e.currentTarget.parentElement.previousElementSibling;
-  console.log(editElement);
+  console.log("editElement", editElement);
   //set form value
   grocery.value = editElement.innerHTML;
   editFlag = true;
   editId = element.dataset.id;
   submitBtnEl.textContent = "edit";
 }
+
 //set back to default
 function setBackToDefault() {
   grocery.value = "";
@@ -187,26 +192,22 @@ function createListItem(id, value) {
 }
 
 function render(lists) {
-  list.innerHTML = "";
-
+  // list.innerHTML = "";
   // 로컬 스토리지에서 가져온 리스트 데이터들
   lists.forEach((l) => {
     //  list => 쿼리셀렉터로 가져온 html 요소
     list.innerHTML += /* html */ ` 
     <div class="grocery_item" data-id="${l.id}">
-    <p class="item">${l.value}</p>
-    <div class="btn_container">
-      <button type="button" class="edit_btn">
-      <span class="material-symbols-outlined">edit_document</span>
-      </button>
-      <button type="button" class="delete_btn">
-        <span class="material-symbols-outlined"> delete </span>
-      </button>
-    </div>
+      <p class="item">${l.value}</p>
+      <div class="btn_container">
+        <button type="button" class="edit_btn">
+        <span class="material-symbols-outlined">edit_document</span>
+        </button>
+        <button type="button" class="delete_btn">
+          <span class="material-symbols-outlined"> delete </span>
+        </button>
+      </div>
     </div>`;
-    //append child
-    // console.log(list);
-    // list.appendChild(createLi);
   });
 
   const editBtnEl = document.querySelector(".edit_btn");
