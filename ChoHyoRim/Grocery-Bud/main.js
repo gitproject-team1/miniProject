@@ -1,5 +1,4 @@
 import "/style.scss";
-
 const alert = document.querySelector(".alert");
 const grocery = document.getElementById("grocery");
 const submitBtnEl = document.querySelector(".submit_btn");
