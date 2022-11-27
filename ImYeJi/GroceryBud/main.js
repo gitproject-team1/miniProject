@@ -1,27 +1,71 @@
-const form = document.querySelector('.grocery-form')
-const input = document.querySelector('#grocery')
+import { getTodo } from "./getTodo.js"
+import { addTodo } from "./addTodo.js"
+import { deleteTodo } from "./deleteTodo.js"
+import { editTodo } from "./editTodo.js"
+import { changeOrder } from "./changeOrder.js"
+
 const alert = document.querySelector('.alert')
-const list = document.querySelector('.grocery-list')
-const container = document.querySelector('.grocery-container')
-const clearBtn = document.querySelector('.clear-btn')
+const form = document.querySelector('.todo-form')
+const todo = document.querySelector('.todo')
 const submitBtn = document.querySelector('.submit-btn')
+const container = document.querySelector('.container')
+const list = document.querySelector('.list')
+const clearBtn = document.querySelector('.clear-btn')
 
-let editFlag = false
 let editElement
-let editID = ''
+let editFlag = false
+let overlap = false
+let editID
+let done = false // 일단 해둠
+let editOrder
 
+// submit 하면
+form.addEventListener('submit', addItem)
+// clear items 누르면
+clearBtn.addEventListener('click', clearItems)
+// 새로고침
+window.addEventListener('DOMContentLoaded', loadItems)
 
-// submit 
-form.addEventListener('submit', function(e) {
+async function addItem(e) {
   e.preventDefault()
-  const value = input.value
-  const id = new Date().getTime().toString()
-  if(value && !editFlag) {
-    const el = document.createElement('article')
-    el.classList.add('grocery-item')
-    el.setAttribute('data-id', id)
-    el.innerHTML = /* html */`
-    <p class="title">${value}</p>
+  // 중복값 안 되게
+  let title = todo.value
+  const lists = await getTodo()
+  for(const list of lists) {
+    if(title === list.title) {
+      displayAlert('this value already exists', 'danger')
+      overlap = true
+      todo.value = ''
+    } 
+  }
+  if(title && !editFlag && !overlap){
+    let lists = await getTodo()
+    let order = lists.length
+    await addTodo(title, order)
+    await getTodo()
+    createTodo(title)
+    displayAlert('todo added to the list', 'success')
+    container.classList.add('show-container')
+    setBackToDefault()
+  }
+  else if(title && editFlag && !overlap){
+    editElement.innerHTML = title
+    await editTodo(editID, title, done, editOrder)
+    displayAlert('value changed', 'success')
+    setBackToDefault()
+  }
+  else if(!title && !overlap){
+    displayAlert('please enter value', 'danger')
+  }
+  setBackToDefault()
+}
+
+function createTodo(title) {
+  const element = document.createElement('article')
+  // add class
+  element.classList.add('item')
+  element.innerHTML = /* html */`
+    <p class="title">${title}</p>
     <div class="btn-container">
       <button type="button" class="edit-btn">
         <i class="fas fa-edit"></i>
@@ -31,44 +75,98 @@ form.addEventListener('submit', function(e) {
       </button>
     </div>
   `
-  list.appendChild(el)
-  container.classList.add('show-container')
-  setBackToDefault()
-  // localstorage
-  const storage = {id: id, value: value}
-  let items = localStorage.getItem('list')? JSON.parse(localStorage.getItem('list')) : []
-  items.push(storage)
-  localStorage.setItem('list', JSON.stringify(items))
-  } else if(value && editFlag) {
+  const deleteBtn = element.querySelector('.delete-btn')
+  const editBtn = element.querySelector('.edit-btn')
+  deleteBtn.addEventListener('click', deleteItem)
+  editBtn.addEventListener('click', editItem)
+  list.appendChild(element)
+}
 
-  } else {
-    alert.textContent = 'please enter value'
-    alert.classList.add('alert-danger')
+// display alert
+function displayAlert(text, action) {
+  alert.textContent = text
+  alert.classList.add(`alert-${action}`)
 
-    setTimeout(function() {
-      alert.textContent = ''
-      alert.classList.remove('alert-danger')
-    }, 1000)
-  }
-})
+  // remove alert
+  setTimeout(function() {
+    alert.textContent = ''
+    alert.classList.remove(`alert-${action}`)
+  }, 1000)
+}
 
-// clear items 클릭
-clearBtn.addEventListener('click', function() {
-  const items = document.querySelectorAll('.grocery-item')
-
+async function clearItems() {
+  const items = document.querySelectorAll('.item')
   if(items.length > 0) {
-    for(const x of items) {
-      list.removeChild(x)
-    }
+    items.forEach(item => {
+      list.removeChild(item)
+    })
+  }
+  let lists = await getTodo()
+  for(const list of lists) {
+    const { id } = list
+    await deleteTodo(id)
   }
   container.classList.remove('show-container')
+  displayAlert('empty list', 'danger')
   setBackToDefault()
-  localStorage.removeItem('list')
-})
-
-function setBackToDefault () {
-  input.value = ''
-  editFlag = false
-  editID = ''
-  submitBtn.text = 'submit'
 }
+
+async function deleteItem(e) {
+  const element = e.currentTarget.parentElement.parentElement
+  const title = element.querySelector('p').textContent
+  list.removeChild(element)
+  if(list.children.length === 0) {
+    container.classList.remove('show-container')
+  }
+  displayAlert('item removed', 'danger')
+  
+  let lists = await getTodo()
+  for(const list of lists) {
+    if(title === list.title) {
+      const { id } = list
+      await deleteTodo(id)
+    }
+  }
+  setBackToDefault()
+}
+
+async function editItem(e) {
+  editElement = e.currentTarget.parentElement.previousElementSibling
+  todo.value = editElement.innerHTML
+  let lists = await getTodo()
+  for(const list of lists) {
+    if(editElement.textContent === list.title ) {
+      const { id, order } = list
+      editID = id
+      editOrder = order
+      break
+    }
+  }
+  editFlag = true
+  submitBtn.textContent = 'edit'
+}
+
+// set back to default
+function setBackToDefault () {
+  todo.value = ''
+  editFlag = false
+  overlap = false
+  submitBtn.textContent = 'submit'
+}
+
+async function loadItems() {
+  let lists = await getTodo()
+  if(lists.length > 0) {
+    container.classList.add('show-container')
+    for(const list of lists) { {
+        createTodo(list.title)
+      }
+    }
+  }
+}
+
+// 드래그&드랍
+new Sortable(list, {
+  animation: 150,
+  ghostClass: 'blue-backgorund-class'
+})
