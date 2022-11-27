@@ -8,9 +8,6 @@ const submitBtnEl = document.querySelector(".submit_btn");
 const container = document.querySelector(".grocery_container");
 const list = document.querySelector(".grocery_list");
 const clearBtnEl = document.querySelector(".clear_btn");
-
-console.log(localStorage.getItem("list"));
-
 const lists = JSON.parse(localStorage.getItem("list"));
 
 //load items
@@ -39,16 +36,17 @@ function addItem(e) {
     createListItem(id, value);
     //display alert
     displayAlert("item added", "success");
-    // container.classList.add("show-container");
+    container.classList.add("show_container");
     const editBtnEl = document.querySelector(".edit_btn");
     const deleteBtnEl = document.querySelector(".delete_btn");
     deleteBtnEl.addEventListener("click", deleteItem);
     editBtnEl.addEventListener("click", editItem);
+
     //add to local storage
     addToLocalStorage(id, value);
     //set back to default
     setBackToDefault();
-    clearBtnEl.classList.add("show-container");
+    clearBtnEl.classList.add("show_container");
   } else if (value && editFlag) {
     editElement.innerHTML = value;
     displayAlert("value changed!", "success");
@@ -71,7 +69,7 @@ function displayAlert(text, action) {
   }, 1000);
 }
 
-//clear items
+//모든 아이템 삭제
 function clearItems() {
   const items = document.querySelectorAll(".grocery_item");
   if (items.length > 0) {
@@ -79,14 +77,15 @@ function clearItems() {
       list.removeChild(item);
     });
   }
-  container.classList.remove("show-container");
   displayAlert("empty list", "danger");
   setBackToDefault();
   localStorage.removeItem("list");
+  clearBtnEl.classList.remove("show_container");
 }
 
 //delete function
 function deleteItem(e) {
+  console.log(e);
   console.log("item deleted");
   const element = e.currentTarget.parentElement.parentElement;
   const id = element.dataset.id;
@@ -106,6 +105,7 @@ function editItem(e) {
   const element = e.currentTarget.parentElement.parentElement;
   //set edit item
   editElement = e.currentTarget.parentElement.previousElementSibling;
+  console.log(editElement);
   //set form value
   grocery.value = editElement.innerHTML;
   editFlag = true;
@@ -171,29 +171,8 @@ function createListItem(id, value) {
   attr.value = id;
   element.setAttributeNode(attr);
   element.innerHTML = /* html */ `
-  <div class="grocery_item">
-  <p class="item">${value}</p>
-  <div class="btn_container">
-    <button type="button" class="edit_btn">
-    <span class="material-symbols-outlined">
-edit_document
-</span>
-    </button>
-    <button type="button" class="delete_btn">
-      <span class="material-symbols-outlined"> delete </span>
-    </button>
-  </div>
-</div>`;
-  //append child
-  list.appendChild(element);
-}
 
-function render(lists) {
-  if (lists === null) return;
-  lists.forEach((l) => {
-    container.innerHTML += /* html */ `
-  <div class="grocery_item">
-  <p class="item">${l.value}</p>
+  <p class="item">${value}</p>
   <div class="btn_container">
     <button type="button" class="edit_btn">
     <span class="material-symbols-outlined">edit_document</span>
@@ -201,9 +180,44 @@ function render(lists) {
     <button type="button" class="delete_btn">
       <span class="material-symbols-outlined"> delete </span>
     </button>
-  </div>
+
 </div>`;
+  //append child
+  list.appendChild(element);
+}
+
+function render(lists) {
+  list.innerHTML = "";
+
+  // 로컬 스토리지에서 가져온 리스트 데이터들
+  lists.forEach((l) => {
+    //  list => 쿼리셀렉터로 가져온 html 요소
+    list.innerHTML += /* html */ ` 
+    <div class="grocery_item" data-id="${l.id}">
+    <p class="item">${l.value}</p>
+    <div class="btn_container">
+      <button type="button" class="edit_btn">
+      <span class="material-symbols-outlined">edit_document</span>
+      </button>
+      <button type="button" class="delete_btn">
+        <span class="material-symbols-outlined"> delete </span>
+      </button>
+    </div>
+    </div>`;
+    //append child
+    // console.log(list);
+    // list.appendChild(createLi);
   });
+
+  const editBtnEl = document.querySelector(".edit_btn");
+  editBtnEl.addEventListener("click", editItem);
 }
 
 render(lists);
+
+const editBtns = document.querySelectorAll(".edit_btn");
+editBtns.forEach((editBtn) => editBtn.addEventListener("click", editItem));
+const deleteBtns = document.querySelectorAll(".delete_btn");
+deleteBtns.forEach((deleteBtn) =>
+  deleteBtn.addEventListener("click", deleteItem)
+);
