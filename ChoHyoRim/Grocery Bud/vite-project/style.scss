@@ -10,10 +10,12 @@ body {
   width: 600px;
   margin: auto;
   margin-top: 20vh;
-  padding: 0 60px 100px 60px;
+  padding: 0 60px 60px 60px;
   box-sizing: border-box;
   text-align: center;
+
   .alert {
+    display: none;
     position: absolute;
     width: 300px;
     height: 24px;
@@ -26,16 +28,18 @@ body {
     background-color: rgb(205, 205, 255);
     border-radius: 10px;
     line-height: 1.25rem;
+
     &--danger {
+      display: block;
       background-color: red;
     }
     &--success {
+      display: block;
       background-color: green;
     }
   }
   h2 {
     font-size: 32px;
-    font-weight: 700px;
     margin-bottom: 30px;
     margin-top: 60px;
   }
@@ -69,7 +73,8 @@ body {
   }
 
   .clear_btn {
-    visibility: hidden;
+    display: none;
+    margin: auto;
     font-family: "Abril Fatface", cursive;
     border: 0;
     border-radius: 4px;
@@ -87,6 +92,7 @@ body {
 
 .grocery_container {
   padding: 4px 16px;
+  display: block;
 }
 
 .grocery_form {
@@ -123,4 +129,7 @@ body {
   .delete_btn {
     color: rgb(226, 31, 31);
   }
+}
+.show_container {
+  display: block !important;
 }
