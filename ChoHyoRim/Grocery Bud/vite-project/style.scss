@@ -1,0 +1,135 @@
+body {
+  font-family: "Abril Fatface", cursive;
+}
+
+.container {
+  position: relative;
+  background-color: fff;
+  border: 2px solid;
+  border-radius: 10px;
+  width: 600px;
+  margin: auto;
+  margin-top: 20vh;
+  padding: 0 60px 60px 60px;
+  box-sizing: border-box;
+  text-align: center;
+  .alert {
+    display: none;
+    position: absolute;
+    width: 300px;
+    height: 24px;
+    right: 150px;
+    top: 20px;
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: rgb(205, 205, 255);
+    border-radius: 10px;
+    line-height: 1.25rem;
+
+    &--danger {
+      display: block;
+      background-color: rgba(255, 0, 0, 0.233);
+    }
+    &--success {
+      display: block;
+      background-color: rgba(0, 128, 0, 0.233);
+    }
+  }
+  h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    margin-top: 60px;
+  }
+  .input_box {
+    input {
+      font-family: "Roboto", sans-serif;
+      border: rgba(255, 166, 0, 0.681);
+      border-bottom-left-radius: 10px;
+      width: 300px;
+      height: 30px;
+      background-color: rgba(89, 255, 0, 0.17);
+      &:focus {
+        background-color: rgb(235, 255, 137);
+        outline: none;
+      }
+    }
+    .submit_btn {
+      font-family: "Abril Fatface", cursive;
+      width: 80px;
+      height: 30px;
+      border-color: orange;
+      background-color: orange;
+      border-top-right-radius: 10px;
+      &:hover {
+        cursor: pointer;
+      }
+      &:active {
+        background-color: rgba(70, 164, 164, 0.468);
+        color: white;
+      }
+    }
+  }
+
+  .clear_btn {
+    display: none;
+    margin: auto;
+    font-family: "Abril Fatface", cursive;
+    border: 0;
+    border-radius: 4px;
+    padding: 5px 20px;
+    background-color: rgba(255, 0, 0, 0.144);
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.clear_btn .show-container {
+  visibility: visible;
+}
+
+.grocery_container {
+  padding: 4px 16px;
+  display: block;
+}
+
+.grocery_form {
+  padding: 4px 16px;
+}
+
+.grocery_list {
+  width: 400px;
+  padding: 4px 16px;
+}
+
+.grocery_item {
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  font-size: 14px;
+  padding: 2px 4px;
+}
+.btn_container {
+  button {
+    border: 0;
+    background-color: transparent;
+    padding: 0 3px;
+    align-items: center;
+    :hover {
+      cursor: pointer;
+    }
+  }
+  .edit_btn {
+    color: rgb(10, 208, 49);
+  }
+  .delete_btn {
+    color: rgb(226, 31, 31);
+  }
+}
+.show_container {
+  display: block !important;
+}
